@@ -1,7 +1,7 @@
 import express, { request, response } from 'express';
 import cors from "cors";
 import * as dotenv from 'dotenv';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 dotenv.config()
 
 const app = express();
@@ -40,6 +40,15 @@ app.get("/expenses", async (request, response) => {
     response.send(expenses);
 });
 
+app.delete("/expenses/:id", async (request, response) => {
+    const { id } = request.params;
+    const result = await client.db('moneyManager')
+        .collection('expenses')
+        .deleteOne({ _id: ObjectId(id) });
+
+    console.log(result);
+})
+
 //Money Manager - Income
 
 app.post("/income", async (request, response) => {
@@ -59,5 +68,14 @@ app.get("/income", async (request, response) => {
 
     response.send(expenses);
 });
+
+app.delete("/income/:id", async (request, response) => {
+    const { id } = request.params;
+    const result = await client.db('moneyManager')
+        .collection('income')
+        .deleteOne({ _id: ObjectId(id) });
+
+    console.log(result);
+})
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
