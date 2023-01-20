@@ -20,6 +20,44 @@ app.get("/", function (request, response) {
     response.send(`Hi, The Server is Running ${PORT}`);
 });
 
+//Money Manager - Expenses
 
+app.post("/expenses", async (request, response) => {
+    const data = request.body;
+    const result = await client.db('moneyManager')
+        .collection('expenses')
+        .insertMany(data);
+
+    response.send(result);
+});
+
+app.get("/expenses", async (request, response) => {
+    const expenses = await client.db('moneyManager')
+        .collection('expenses')
+        .find({})
+        .toArray();
+
+    response.send(expenses);
+});
+
+//Money Manager - Income
+
+app.post("/income", async (request, response) => {
+    const data = request.body;
+    const result = await client.db('moneyManager')
+        .collection('income')
+        .insertMany(data);
+
+    response.send(result);
+});
+
+app.get("/income", async (request, response) => {
+    const expenses = await client.db('moneyManager')
+        .collection('income')
+        .find({})
+        .toArray();
+
+    response.send(expenses);
+});
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
