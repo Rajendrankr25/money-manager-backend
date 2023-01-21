@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", function (request, response) {
-    response.send(`Hi, The Server is Running🌹🌹🌹`);
+    response.send(`Hi, The Server is Running`);
 });
 
 //Money Manager - Expenses
