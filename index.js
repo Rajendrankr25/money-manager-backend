@@ -66,6 +66,8 @@ app.delete("/expenses/:id", async (request, response) => {
         .deleteOne({ _id: ObjectId(id) });
 
     console.log(result);
+    result.deletedCount > 0 ? response.send({ message: "expense deleted" }) :
+        response.send({ message: "expense not found" });
 })
 
 //Money Manager - Income
@@ -114,6 +116,8 @@ app.delete("/income/:id", async (request, response) => {
         .deleteOne({ _id: ObjectId(id) });
 
     console.log(result);
+    result.deletedCount > 0 ? response.send({ message: "income deleted" }) :
+        response.send({ message: "income not found" });
 })
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
