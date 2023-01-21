@@ -40,6 +40,25 @@ app.get("/expenses", async (request, response) => {
     response.send(expenses);
 });
 
+app.get("/expenses/:id", async (request, response) => {
+    const { id } = request.params;
+    const expense = await client.db('moneyManager')
+        .collection('expenses')
+        .findOne({ _id: ObjectId(id) });
+
+    expense ? response.send(expense) : response.status(404).send({ message: "Expenses not found" });
+});
+
+app.put('/expenses/:id', async (request, response) => {
+    const { id } = request.params;
+    const data = request.body;
+    const result = await client.db('moneyManager')
+        .collection('expenses')
+        .updateOne({ _id: ObjectId(id) }, { $set: data });
+
+    response.send(result);
+});
+
 app.delete("/expenses/:id", async (request, response) => {
     const { id } = request.params;
     const result = await client.db('moneyManager')
@@ -67,6 +86,25 @@ app.get("/income", async (request, response) => {
         .toArray();
 
     response.send(expenses);
+});
+
+app.get("/income/:id", async (request, response) => {
+    const { id } = request.params;
+    const income = await client.db('moneyManager')
+        .collection('income')
+        .findOne({ _id: ObjectId(id) });
+
+    income ? response.send(income) : response.status(404).send({ message: "Income not found" });
+});
+
+app.put('/income/:id', async (request, response) => {
+    const { id } = request.params;
+    const data = request.body;
+    const result = await client.db('moneyManager')
+        .collection('income')
+        .updateOne({ _id: ObjectId(id) }, { $set: data });
+
+    response.send(result);
 });
 
 app.delete("/income/:id", async (request, response) => {
